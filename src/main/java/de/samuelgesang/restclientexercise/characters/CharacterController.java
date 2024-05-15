@@ -1,9 +1,9 @@
 package de.samuelgesang.restclientexercise.characters;
 
 import de.samuelgesang.restclientexercise.characters.api.RickMortyApiCharacter;
-import de.samuelgesang.restclientexercise.characters.api.RickMortyApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class CharacterController {
     }
 
     @GetMapping
-    public List<RickMortyApiCharacter> getAllCharacters() {
-        return rickMortyApiService.loadAllCharacters();
+    public List<RickMortyApiCharacter> getAllCharacters(@RequestParam(required = false) String status) {
+        return rickMortyApiService.loadAllCharacters().stream().filter(character -> status == null || character.status().equals(status)).toList();
     }
 }
